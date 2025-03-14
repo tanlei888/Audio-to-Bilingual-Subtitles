@@ -19,6 +19,7 @@
 - Python 3.8 或更高版本
 - CUDA支持（可选，用于GPU加速）
 - FFmpeg（用于音频处理）
+- 指尖AI API密钥（用于翻译服务）
 
 ## 📦 安装步骤
 
@@ -42,7 +43,19 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. 首次运行时，程序会自动下载Whisper模型（约140MB）：
+4. 配置AI翻译服务：
+   - 访问 [指尖AI官网](https://zhijianai.com.cn) 注册账号
+   - 获取您的API密钥
+   - 在 `audio_to_srt.py` 文件中找到以下代码并更新：
+   ```python
+   url = "https://api2.zhijianai.com.cn/v1/chat/completions"
+   headers = {
+       "Content-Type": "application/json",
+       "Authorization": f"Bearer YOUR_API_KEY_HERE"  # 替换为您的API密钥
+   }
+   ```
+
+5. 首次运行时，程序会自动下载Whisper模型（约140MB）：
    - 模型文件将保存在 `models` 目录下
    - 下载完成后会自动缓存，后续运行无需重新下载
    - 如果下载速度较慢，可以手动下载模型文件：
@@ -84,7 +97,8 @@ Four Part two Listening Comprehension Section A Directions.
 - 程序会自动检测并使用GPU（如果可用）
 - 默认使用Whisper的"base"模型
 - 音频会自动重采样为16kHz（Whisper模型要求）
-- 翻译使用智能AI接口，确保专业术语的准确性
+- 翻译使用指尖AI接口，确保专业术语的准确性
+- 可以根据需要调整翻译接口的temperature参数（当前设置为0.3）
 
 ## 📋 支持的音频格式
 
@@ -105,7 +119,9 @@ Four Part two Listening Comprehension Section A Directions.
    - 确保系统有足够的可用内存
 
 3. 如果翻译质量不理想：
-   - 检查网络连接
+   - 检查API密钥是否正确配置
+   - 确保网络连接稳定
+   - 尝试调整temperature参数
    - 确保音频质量清晰
 
 ## 📈 性能优化
@@ -126,4 +142,4 @@ MIT License
 
 - [OpenAI Whisper](https://github.com/openai/whisper) - 提供强大的语音识别能力
 - [librosa](https://librosa.org/) - 提供音频处理支持
-- [智简AI](https://zhijianai.com/) - 提供AI翻译支持 
+- [指尖AI](https://zhijianai.com.cn) - 提供AI翻译支持 
